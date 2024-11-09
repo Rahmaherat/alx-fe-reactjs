@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Counter() {
-  // Initialize state with the useState hook
+  // Initialize state with useState hook
   const [count, setCount] = useState(0);
 
   // Handlers for incrementing, decrementing, and resetting the count
