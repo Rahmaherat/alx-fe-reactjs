@@ -1,6 +1,6 @@
 import React from 'react';
 import ProfilePage from './ProfilePage';
-import { UserContext.Provider } from './UserContext';  // Import UserProvider
+import { UserProvider } from './UserContext';  // Import UserProvider
 
 function App() {
   const userData = { name: "Jane Doe", email: "jane.doe@example.com" };  // Example user data
