@@ -1,5 +1,9 @@
 import React from 'react';
+import UserInfo from './UserInfo';
 
+function ProfilePage() {
+    return <UserInfo />;
+}
 const UserProfile = (props) => {
     return (
         <div style={{ border: '1px solid gray', padding: '15px', margin: '15px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
