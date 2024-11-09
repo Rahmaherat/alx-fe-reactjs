@@ -1,8 +1,16 @@
-import React from 'react';
-import UserInfo from './UserInfo'; // UserInfo no longer needs userData prop
+import React, { useContext } from 'react';  // Import useContext
+import { UserContext } from './UserContext';  // Import UserContext
 
-function ProfilePage() {
-  return <UserInfo />; // Just render UserInfo without passing userData
+function UserInfo() {
+  // Access user data from context using useContext
+  const { name, email } = useContext(UserContext);
+
+  return (
+    <div>
+      <p>Name: {name}</p>
+      <p>Email: {email}</p>
+    </div>
+  );
 }
 
-export default ProfilePage;
+export default UserInfo;
