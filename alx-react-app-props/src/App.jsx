@@ -1,15 +1,15 @@
 import React from 'react';
-import { UserProvider } from './UserContext';  // Import the UserProvider
 import ProfilePage from './ProfilePage';
+import { UserProvider } from './UserContext'; // Import UserProvider
 
 function App() {
-    const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
+  const userData = { name: "Jane Doe", email: "jane.doe@example.com" }; // Example user data
 
-    return (
-        <UserProvider userData={userData}>  {/* Provide userData to the context */}
-            <ProfilePage />
-        </UserProvider>
-    );
+  return (
+    <UserProvider userData={userData}> {/* Wrap ProfilePage with UserProvider */}
+      <ProfilePage />
+    </UserProvider>
+  );
 }
 
 export default App;
