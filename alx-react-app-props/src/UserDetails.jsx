@@ -1,15 +1,16 @@
 import React from 'react';
-import { useUser } from './UserContext';  // Import the useUser hook
+import { useUser } from './UserContext'; // Import the custom useUser hook
 
 function UserDetails() {
-    const userData = useUser();  // Consume userData from the context
+  // Access userData from the context
+  const { name, email } = useUser(); 
 
-    return (
-        <div>
-            <p>Name: {userData.name}</p>
-            <p>Email: {userData.email}</p>
-        </div>
-    );
+  return (
+    <div>
+      <p>Name: {name}</p>
+      <p>Email: {email}</p>
+    </div>
+  );
 }
 
 export default UserDetails;
