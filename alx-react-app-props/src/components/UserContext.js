@@ -9,7 +9,7 @@ export const useUser = () => {
 };
 
 // 3. Create a provider component that wraps the app and provides the user data
-export const UserProvider = ({ children, userData }) => {
+export default = ({ children, userData }) => {
   return (
     <UserContext.Provider value={userData}>
       {children} {/* All child components will now have access to userData */}
