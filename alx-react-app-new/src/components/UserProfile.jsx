@@ -1,17 +1,13 @@
 import React from 'react';
-import UserInfo from './UserInfo';
+import { useUser } from '../UserContext'; // Import the useUser hook
 
-function ProfilePage() {
-    return <UserInfo />;
-}
-const UserProfile = (props) => {
+const UserProfile = () => {
+    const { name, email } = useUser(); // Access the user data from the context
+
     return (
-        <div style={{ border: '1px solid gray', padding: '15px', margin: '15px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            <h2 style={{ color: 'darkblue', fontSize: '24px', marginBottom: '10px' }}>{props.name}</h2>
-            <p style={{ fontSize: '18px', marginBottom: '5px' }}>
-                Age: <span style={{ fontWeight: 'bold', color: 'green' }}>{props.age}</span>
-            </p>
-            <p style={{ fontSize: '16px', color: 'gray' }}>Bio: {props.bio}</p>
+        <div>
+            <h2>{name}</h2>
+            <p>Email: {email}</p>
         </div>
     );
 };
