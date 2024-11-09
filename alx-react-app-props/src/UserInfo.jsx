@@ -1,10 +1,8 @@
 import React from 'react';
-import { useUser } from './UserContext';  // Import the useUser hook
+import UserDetails from './UserDetails'; // UserDetails no longer needs userData prop
 
 function UserInfo() {
-    const userData = useUser();  // Consume userData from the context
-
-    return <UserDetails userData={userData} />;
+  return <UserDetails />; // Just render UserDetails without passing userData
 }
 
 export default UserInfo;
