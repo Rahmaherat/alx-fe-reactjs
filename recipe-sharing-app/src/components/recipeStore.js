@@ -17,6 +17,17 @@ const useRecipeStore = create((set) => ({
   addRecipe: (newRecipe) => set((state) => ({
     recipes: [...state.recipes, newRecipe], // Add new recipe to the list
   })),
+   // Update an existing recipe
+  updateRecipe: (updatedRecipe) => set((state) => ({
+    recipes: state.recipes.map((recipe) =>
+      recipe.id === updatedRecipe.id ? updatedRecipe : recipe // Replace the old recipe with the updated one
+    ),
+  })),
+
+  // Delete a recipe by its ID
+  deleteRecipe: (recipeId) => set((state) => ({
+    recipes: state.recipes.filter((recipe) => recipe.id !== recipeId), // Remove the recipe from the list
+  })),
 
   // Action to remove a recipe from favorites
   removeFavorite: (recipeId) => set((state) => ({
