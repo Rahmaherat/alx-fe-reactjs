@@ -2,32 +2,38 @@
 import create from 'zustand';
 
 const useRecipeStore = create((set) => ({
-  recipes: [], // Store for all recipes
-  searchTerm: '', // Store for the search term
+  recipes: [], // Store all recipes
+  favorites: [], // Store IDs of favorite recipes
+  recommendations: [], // Store recommended recipes
 
-  // Action to set the search term
-  setSearchTerm: (term) => set({ searchTerm: term }),
+  // Action to add a recipe to favorites
+  addFavorite: (recipeId) => set((state) => {
+    if (!state.favorites.includes(recipeId)) {
+      return { favorites: [...state.favorites, recipeId] };
+    }
+    return state; // Prevent adding duplicates
+  }),
 
-  // Action to filter recipes based on the search term
-  filteredRecipes: [], // Store for filtered recipes
-  filterRecipes: () => set((state) => ({
-    filteredRecipes: state.recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
-      recipe.ingredients.some(ingredient =>
-        ingredient.toLowerCase().includes(state.searchTerm.toLowerCase())
-      ) ||
-      recipe.description.toLowerCase().includes(state.searchTerm.toLowerCase())
-    ),
+  // Action to remove a recipe from favorites
+  removeFavorite: (recipeId) => set((state) => ({
+    favorites: state.favorites.filter(id => id !== recipeId),
   })),
 
-  // Optionally, reset filtered recipes when search term is cleared
-  resetFilteredRecipes: () => set({ filteredRecipes: [] }),
+  // Action to generate recommendations based on favorites
+  generateRecommendations: () => set((state) => {
+    // Mock implementation for recommendations: Suggest recipes related to favorites
+    const recommended = state.recipes.filter((recipe) =>
+      state.favorites.includes(recipe.id) && Math.random() > 0.5 // Randomly select related recipes for demo
+    );
+    return { recommendations: recommended };
+  }),
 
-  // Action to initialize recipes (useful for fetching or setting all recipes at once)
+  // Action to initialize recipes (useful for setting up initial data)
   setRecipes: (recipes) => set({ recipes }),
 }));
 
 export { useRecipeStore };
+
 
 
 
