@@ -2,29 +2,32 @@
 import create from 'zustand';
 
 const useRecipeStore = create((set) => ({
-  recipes: [],  // Store for recipes
+  recipes: [], // Store for all recipes
+  searchTerm: '', // Store for the search term
 
-  // Action to add a new recipe
-  addRecipe: (newRecipe) => set((state) => ({
-    recipes: [...state.recipes, newRecipe],
-  })),
+  // Action to set the search term
+  setSearchTerm: (term) => set({ searchTerm: term }),
 
-  // Action to delete a recipe by ID
-  deleteRecipe: (recipeId) => set((state) => ({
-    recipes: state.recipes.filter((recipe) => recipe.id !== recipeId),
-  })),
-
-  // Action to update an existing recipe
-  updateRecipe: (updatedRecipe) => set((state) => ({
-    recipes: state.recipes.map((recipe) =>
-      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+  // Action to filter recipes based on the search term
+  filteredRecipes: [], // Store for filtered recipes
+  filterRecipes: () => set((state) => ({
+    filteredRecipes: state.recipes.filter((recipe) =>
+      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+      recipe.ingredients.some(ingredient =>
+        ingredient.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ) ||
+      recipe.description.toLowerCase().includes(state.searchTerm.toLowerCase())
     ),
   })),
 
-  // Action to set recipes (for initialization)
+  // Optionally, reset filtered recipes when search term is cleared
+  resetFilteredRecipes: () => set({ filteredRecipes: [] }),
+
+  // Action to initialize recipes (useful for fetching or setting all recipes at once)
   setRecipes: (recipes) => set({ recipes }),
 }));
 
 export { useRecipeStore };
+
 
 
