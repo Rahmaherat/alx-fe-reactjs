@@ -13,6 +13,10 @@ const useRecipeStore = create((set) => ({
     }
     return state; // Prevent adding duplicates
   }),
+   // Action to add a new recipe
+  addRecipe: (newRecipe) => set((state) => ({
+    recipes: [...state.recipes, newRecipe], // Add new recipe to the list
+  })),
 
   // Action to remove a recipe from favorites
   removeFavorite: (recipeId) => set((state) => ({
