@@ -5,7 +5,7 @@ import AddRecipeForm from './components/AddRecipeForm';
 
 function App() {
   return (
-    <div>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1>Recipe Sharing App</h1>
       <AddRecipeForm />
       <RecipeList />
@@ -14,4 +14,5 @@ function App() {
 }
 
 export default App;
+
 
