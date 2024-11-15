@@ -42,6 +42,14 @@ const useRecipeStore = create((set) => ({
     );
     return { recommendations: recommended };
   }),
+    // Set the search term for filtering recipes
+  setSearchTerm: (term) => set({ searchTerm: term }),
+
+  // Filter recipes based on the search term
+  filterRecipes: () => set((state) => ({
+    filteredRecipes: state.recipes.filter((recipe) =>
+      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase()) // Filter by title
+    ),
 
   // Action to initialize recipes (useful for setting up initial data)
   setRecipes: (recipes) => set({ recipes }),
