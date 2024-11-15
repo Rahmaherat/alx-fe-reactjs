@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeList from './components/RecipeList';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import RecipeDetails from './components/RecipeDetails';
+import EditRecipeForm from './components/EditRecipeForm';
 import './App.css' 
 
 function App() {
@@ -42,6 +45,11 @@ function App() {
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
+          <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
+          <Route path="/edit/:recipeId" element={<EditRecipeForm />} />
+        </Routes>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
