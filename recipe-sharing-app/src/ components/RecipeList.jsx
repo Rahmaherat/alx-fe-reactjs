@@ -1,8 +1,18 @@
 // src/components/RecipeList.jsx
+// src/recipeStore.js
+
 import { useRecipeStore } from '../recipeStore';
+import create from 'zustand';
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
+  const useRecipeStore = create((set) => ({
+  recipes: [],
+  addRecipe: (newRecipe) => set((state) => ({
+    recipes: [...state.recipes, newRecipe],
+  })),
+  setRecipes: (recipes) => set({ recipes }),
+}));
 
   return (
     <div>
@@ -20,7 +30,7 @@ const RecipeList = () => {
     </div>
   );
 };
-
+export { useRecipeStore };
 export default RecipeList;
 
 
