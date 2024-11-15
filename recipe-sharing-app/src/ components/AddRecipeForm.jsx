@@ -1,3 +1,4 @@
+
 // src/components/AddRecipeForm.jsx
 import { useState } from 'react';
 import { useRecipeStore } from '../recipeStore';
@@ -17,7 +18,7 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
       <h2>Add a New Recipe</h2>
       <input
         type="text"
@@ -25,17 +26,31 @@ const AddRecipeForm = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Recipe Title"
         required
+        style={{ marginBottom: '10px', padding: '8px', width: '100%' }}
       />
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Recipe Description"
         required
+        style={{ marginBottom: '10px', padding: '8px', width: '100%', height: '100px' }}
       />
-      <button type="submit">Add Recipe</button>
+      <button
+        type="submit"
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        Add Recipe
+      </button>
     </form>
   );
 };
 
 export default AddRecipeForm;
+
 
