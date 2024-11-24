@@ -1,36 +1,29 @@
-// src/components/PostsComponent.js
-
 import React from 'react';
-import { useQuery } from 'react-query'; // Importing the useQuery hook
-import axios from 'axios'; // We will use axios for fetching data
+import { useQuery } from 'react-query'; // Importing useQuery hook from react-query
+import axios from 'axios'; // Importing axios to fetch data
 
 // Function to fetch posts from the API
 const fetchPosts = async () => {
   const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts');
-  return data;
+  return data; // Returning the data from the response
 };
 
 const PostsComponent = () => {
-  // Using the useQuery hook to fetch data
+  // Using useQuery to fetch posts
   const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts, {
-    // Options for query
-    staleTime: 5 * 60 * 1000, // Data will be considered fresh for 5 minutes
-    cacheTime: 10 * 60 * 1000, // Cache time for data
+    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+    cacheTime: 10 * 60 * 1000, // Cache data for 10 minutes
   });
 
-  // Loading and error states
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isLoading) return <div>Loading...</div>; // Display loading message
+  if (isError) return <div>Error: {error.message}</div>; // Display error message
 
   return (
     <div>
       <h1>Posts</h1>
-      {/* Button to trigger refetch */}
-      <button onClick={refetch}>Refetch Data</button>
-      
+      <button onClick={refetch}>Refetch Data</button> {/* Refetch data button */}
       <ul>
-        {/* Render posts */}
-        {data.map(post => (
+        {data.map((post) => (
           <li key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
@@ -42,3 +35,4 @@ const PostsComponent = () => {
 };
 
 export default PostsComponent;
+
