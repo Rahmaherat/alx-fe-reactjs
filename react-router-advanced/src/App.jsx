@@ -1,12 +1,14 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { AuthProvider } from 'AuthContext'; // Import AuthProvider
 import Home from './components/Home';            // Home component
 import BlogPost from './components/BlogPost';    // BlogPost component (to be created)
 import NotFound from './components/NotFound';    // 404 Not Found component
 
 function App() {
   return (
+     <AuthProvider> {/* Wrap the app in AuthProvider */}
     <Router>
       <div>
         <nav>
@@ -37,6 +39,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+           </AuthProvider>
   );
 }
 
