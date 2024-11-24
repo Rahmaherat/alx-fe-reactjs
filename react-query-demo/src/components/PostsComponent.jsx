@@ -1,38 +1,47 @@
 import React from 'react';
-import { useQuery } from 'react-query'; // Importing useQuery hook from react-query
-import axios from 'axios'; // Importing axios to fetch data
+import { useQuery, useQueryClient } from 'react-query';
 
-// Function to fetch posts from the API
 const fetchPosts = async () => {
-  const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts');
-  return data; // Returning the data from the response
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
 };
 
 const PostsComponent = () => {
-  // Using useQuery to fetch posts
-  const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts, {
-    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
-    cacheTime: 10 * 60 * 1000, // Cache data for 10 minutes
+  const queryClient = useQueryClient();
+  const { data, error, isLoading, isError } = useQuery('posts', fetchPosts, {
+    cacheTime: 1000 * 60 * 10, // Cache data for 10 minutes
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    refetchOnWindowFocus: true, // Refetch data when window is focused
+    keepPreviousData: true // Keep previous data while fetching new data
   });
 
-  if (isLoading) return <div>Loading...</div>; // Display loading message
-  if (isError) return <div>Error: {error.message}</div>; // Display error message
+  const handleRefetch = () => {
+    queryClient.invalidateQueries('posts');
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
       <h1>Posts</h1>
-      <button onClick={refetch}>Refetch Data</button> {/* Refetch data button */}
-      <ul>
-        {data.map((post) => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-          </li>
-        ))}
-      </ul>
+      <button onClick={handleRefetch}>Refetch Posts</button>
+      {data.map(post => (
+        <div key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+        </div>
+      ))}
     </div>
   );
 };
 
 export default PostsComponent;
-
