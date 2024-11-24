@@ -1,6 +1,7 @@
 // src/components/Profile.jsx
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';  // Link for navigation and Outlet to render nested routes
+import { Routes, Route } from 'react-router-dom'; // Link to navigate and Outlet to render nested routes
 import ProfileDetails from './ProfileDetails';    // Import ProfileDetails component
 import ProfileSettings from './ProfileSettings';  // Import ProfileSettings component
 
