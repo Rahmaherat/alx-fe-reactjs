@@ -1,68 +1,79 @@
-// src/components/FormikForm.js
 import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik'; // Import Formik, Field, Form, and ErrorMessage
+import * as Yup from 'yup'; // Import Yup for validation
+
+// Define Yup validation schema
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .required('Username is required')
+    .min(3, 'Username must be at least 3 characters long'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters long')
+});
 
 const FormikForm = () => {
-  // Use Formik for form handling
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required('Username is required'),
-      email: Yup.string().email('Invalid email address').required('Email is required'),
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-    }),
-    onSubmit: (values) => {
-      // Simulate form submission (e.g., API call)
-      console.log('Form submitted:', values);
-    },
-  });
+  // Handle form submission
+  const handleSubmit = (values) => {
+    console.log('Form data:', values);
+  };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          {...formik.getFieldProps('username')}
-        />
-        {formik.touched.username && formik.errors.username ? (
-          <p style={{ color: 'red' }}>{formik.errors.username}</p>
-        ) : null}
-      </div>
+    <div>
+      <h2>Register</h2>
+      {/* Formik setup */}
+      <Formik
+        initialValues={{
+          username: '',
+          email: '',
+          password: ''
+        }}
+        validationSchema={validationSchema} // Yup validation schema
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <Field
+              type="text"
+              id="username"
+              name="username"
+            />
+            {/* Displaying error for username */}
+            <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
+          </div>
 
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          {...formik.getFieldProps('email')}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <p style={{ color: 'red' }}>{formik.errors.email}</p>
-        ) : null}
-      </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <Field
+              type="email"
+              id="email"
+              name="email"
+            />
+            {/* Displaying error for email */}
+            <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
+          </div>
 
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          {...formik.getFieldProps('password')}
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <p style={{ color: 'red' }}>{formik.errors.password}</p>
-        ) : null}
-      </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <Field
+              type="password"
+              id="password"
+              name="password"
+            />
+            {/* Displaying error for password */}
+            <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
+          </div>
 
-      <button type="submit">Register</button>
-    </form>
+          <button type="submit">Register</button>
+        </Form>
+      </Formik>
+    </div>
   );
 };
 
 export default FormikForm;
+
