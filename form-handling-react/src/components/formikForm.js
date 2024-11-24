@@ -1,38 +1,38 @@
 import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik'; // Import Formik, Field, Form, and ErrorMessage
-import * as Yup from 'yup'; // Import Yup for validation
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup'; // Make sure Yup is imported
 
 // Define Yup validation schema
 const validationSchema = Yup.object({
-  username: Yup.string()
-    .required('Username is required')
-    .min(3, 'Username must be at least 3 characters long'),
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters long')
+  username: Yup.string()         // Specifies that 'username' should be a string
+    .required('Username is required')  // Mark it as required
+    .min(3, 'Username must be at least 3 characters long'), // Minimum length of 3
+
+  email: Yup.string()             // Specifies that 'email' should be a string
+    .email('Invalid email address')  // Validate email format
+    .required('Email is required'), // Mark it as required
+
+  password: Yup.string()         // Specifies that 'password' should be a string
+    .required('Password is required')  // Mark it as required
+    .min(6, 'Password must be at least 6 characters long') // Minimum length of 6
 });
 
 const FormikForm = () => {
-  // Handle form submission
   const handleSubmit = (values) => {
-    console.log('Form data:', values);
+    console.log('Form data:', values); // Handle form submission
   };
 
   return (
     <div>
       <h2>Register</h2>
-      {/* Formik setup */}
       <Formik
         initialValues={{
           username: '',
           email: '',
           password: ''
         }}
-        validationSchema={validationSchema} // Yup validation schema
-        onSubmit={handleSubmit}
+        validationSchema={validationSchema}  // Pass validation schema to Formik
+        onSubmit={handleSubmit}  // Handle form submission
       >
         <Form>
           <div>
@@ -42,7 +42,7 @@ const FormikForm = () => {
               id="username"
               name="username"
             />
-            {/* Displaying error for username */}
+            {/* Display error message for username */}
             <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
           </div>
 
@@ -53,7 +53,7 @@ const FormikForm = () => {
               id="email"
               name="email"
             />
-            {/* Displaying error for email */}
+            {/* Display error message for email */}
             <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
           </div>
 
@@ -64,7 +64,7 @@ const FormikForm = () => {
               id="password"
               name="password"
             />
-            {/* Displaying error for password */}
+            {/* Display error message for password */}
             <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
           </div>
 
@@ -76,4 +76,5 @@ const FormikForm = () => {
 };
 
 export default FormikForm;
+
 
