@@ -7,7 +7,6 @@ import ProfileSettings from './components/ProfileSettings';  // Import ProfileSe
 import Home from './components/Home';
 import Post from './components/Post';
 import NotFound from './components/NotFound';
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);  // Simulated authentication state
@@ -33,7 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
           
           {/* Protected Route for Profile */}
-          <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={<Profile />} />}>
+          <Route path="/profile" element={<Profile />}>
             <Route path="details" element={<ProfileDetails />} />
             <Route path="settings" element={<ProfileSettings />} />
           </Route>
@@ -47,6 +46,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
