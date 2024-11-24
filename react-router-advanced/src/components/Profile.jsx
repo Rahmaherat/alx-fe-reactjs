@@ -1,6 +1,6 @@
 // src/components/Profile.jsx
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';  // Link for navigation and Outlet to render nested routes
+import { Link, Outlet } from 'react-router-dom';  // Link for navigation and Outlet for nested routes
 
 function Profile() {
   return (
@@ -17,12 +17,13 @@ function Profile() {
         </ul>
       </nav>
 
-      {/* Render the matched nested route component here */}
+      {/* This is where nested routes will render */}
       <Outlet />
     </div>
   );
 }
 
 export default Profile;
+
 
 
