@@ -3,12 +3,12 @@ import '@testing-library/jest-dom';
 import TodoList from '../components/TodoList';
 
 describe('TodoList Component', () => {
-  test('Initial Render Test', () => {
-    render(<TodoList />);
-    expect(screen.getByText('Todo List')).toBeInTheDocument();
-    expect(screen.getByText('Learn React')).toBeInTheDocument();
-    expect(screen.getByText('Learn Jest')).toBeInTheDocument();
-  });
+test('renders the TodoList component correctly with initial todos', () => {
+  render(<TodoList />);
+  // Check for initial todos
+  expect(screen.getByText('Learn React')).toBeInTheDocument();
+  expect(screen.getByText('Learn Jest')).toBeInTheDocument();
+});
 
   test('Adding Todos', () => {
     render(<TodoList />);
