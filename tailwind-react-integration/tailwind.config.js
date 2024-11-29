@@ -1,5 +1,5 @@
 module.exports = {
-  content: [
+  content: [variants
     "./src/**/*.{js,jsx,ts,tsx}",
     "./public/index.html"
   ],
@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [purge],
 }
 
 
