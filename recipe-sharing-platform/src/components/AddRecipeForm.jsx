@@ -5,7 +5,7 @@ function AddRecipeForm() {
   // Define state variables for each form field
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
+  const [steps, setSteps] = useState(''); // Renaming to 'steps' to match the error message
   const [error, setError] = useState('');
 
   // Handle form submission
@@ -13,7 +13,7 @@ function AddRecipeForm() {
     e.preventDefault();
 
     // Basic validation: check if all fields are filled out
-    if (!title || !ingredients || !instructions) {
+    if (!title || !ingredients || !steps) {
       setError('All fields are required.');
       return;
     }
@@ -32,13 +32,13 @@ function AddRecipeForm() {
     console.log({
       title,
       ingredients: ingredientList,
-      instructions: instructions.split('\n').map((step) => step.trim()),
+      steps: steps.split('\n').map((step) => step.trim()), // Renaming to 'steps'
     });
 
     // Reset form fields after submission
     setTitle('');
     setIngredients('');
-    setInstructions('');
+    setSteps('');
   };
 
   return (
@@ -75,13 +75,13 @@ function AddRecipeForm() {
           />
         </div>
 
-        {/* Cooking Instructions */}
+        {/* Cooking Steps */}
         <div className="mb-4">
-          <label htmlFor="instructions" className="block text-gray-700 font-semibold mb-2">Cooking Instructions</label>
+          <label htmlFor="steps" className="block text-gray-700 font-semibold mb-2">Cooking Instructions</label>
           <textarea
-            id="instructions"
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
+            id="steps"
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter cooking instructions, each step on a new line"
             rows="5"
@@ -103,4 +103,5 @@ function AddRecipeForm() {
 }
 
 export default AddRecipeForm;
+
 
