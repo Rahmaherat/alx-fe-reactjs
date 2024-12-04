@@ -3,25 +3,42 @@
       "id": 1,
       "title": "Spaghetti Carbonara",
       "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-      "image": "https://via.placeholder.com/150"
+      "image": "https://via.placeholder.com/150",
+      "ingredients": [
+        "Spaghetti",
+        "Eggs",
+        "Pancetta",
+        "Parmesan cheese",
+        "Black pepper"
+      ],
+      "instructions": [
+        "Boil the spaghetti.",
+        "Fry the pancetta until crispy.",
+        "Mix eggs and cheese.",
+        "Combine pasta with pancetta and egg mixture.",
+        "Season with black pepper."
+      ]
     },
     {
       "id": 2,
       "title": "Chicken Tikka Masala",
-      "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 3,
-      "title": "Beef Stir-Fry",
-      "summary": "Quick stir-fried beef with vegetables and soy sauce.",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 4,
-      "title": "Vegetable Soup",
-      "summary": "A healthy, hearty soup made with seasonal vegetables.",
-      "image": "https://via.placeholder.com/150"
+      "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato-based gravy.",
+      "image": "https://via.placeholder.com/150",
+      "ingredients": [
+        "Chicken",
+        "Tomato puree",
+        "Cream",
+        "Garlic",
+        "Ginger",
+        "Spices"
+      ],
+      "instructions": [
+        "Grill the chicken pieces.",
+        "Prepare the gravy with tomatoes, cream, and spices.",
+        "Combine the chicken with the gravy.",
+        "Simmer for 15 minutes and serve."
+      ]
     }
   ]
+  
   
