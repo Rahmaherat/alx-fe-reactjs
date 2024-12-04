@@ -1,5 +1,6 @@
 // src/components/HomePage.jsx
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link for routing
 import recipesData from '../data.json'; // Importing the mock data
 
 function HomePage() {
@@ -33,6 +34,7 @@ function HomePage() {
               </button>
             </div>
           </div>
+        </Link>
         ))}
       </div>
     </div>
