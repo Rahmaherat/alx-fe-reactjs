@@ -34,6 +34,7 @@ function HomePage() {
               </button>
             </div>
           </div>
+        </Link>
         ))}
       </div>
     </div>
