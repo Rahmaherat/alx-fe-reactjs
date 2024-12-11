@@ -1,72 +1,129 @@
 import React, { useState } from "react";
-import axios from "axios";  // You can use axios directly in this component if you prefer not to have a separate service
+import axios from "axios";  // Import axios for making HTTP requests
 
 const Search = () => {
-  const [username, setUsername] = useState("");  // To store the search input
-  const [user, setUser] = useState(null);        // To store user data fetched from GitHub API
-  const [loading, setLoading] = useState(false); // To manage loading state
-  const [error, setError] = useState(null);      // To manage error messages
+  const [username, setUsername] = useState("");  // Store username input
+  const [location, setLocation] = useState("");  // Store location input
+  const [minRepos, setMinRepos] = useState(""); // Store minimum repositories input
+  const [users, setUsers] = useState([]);       // Store users data fetched from GitHub API
+  const [loading, setLoading] = useState(false); // Manage loading state
+  const [error, setError] = useState(null);     // Manage error messages
+
+  // Function to fetch user data from GitHub API with advanced search parameters
+  const fetchUserData = async () => {
+    const query = `${username ? `user:${username}` : ""}${location ? `+location:${location}` : ""}${minRepos ? `+repos:${minRepos}` : ""}`;
+    try {
+      const response = await axios.get(`https://api.github.com/search/users?q=${query}`);
+      return response.data.items; // Return the list of users
+    } catch (err) {
+      throw new Error("Failed to fetch users.");
+    }
+  };
 
   // Handle search form submission
   const handleSearch = async (e) => {
-    e.preventDefault();  // Prevent the form from reloading the page
-    if (!username) return;  // Don't fetch if no username is entered
-
+    e.preventDefault();
     setLoading(true);        // Show loading state
     setError(null);          // Clear any previous errors
-    setUser(null);           // Clear any previously fetched user data
+    setUsers([]);            // Clear previous search results
 
     try {
-      // Fetch user data from GitHub API
-      const response = await axios.get(`https://api.github.com/users/${username}`);
-      const userData = response.data; // Store the response data (user info)
-
-      // Set the fetched user data
-      setUser({
-        avatar_url: userData.avatar_url,
-        login: userData.login,
-        name: userData.name,
-        bio: userData.bio || "No bio available",
-        html_url: userData.html_url,
-      });
+      // Fetch user data from GitHub based on advanced search criteria
+      const usersData = await fetchUserData();
+      setUsers(usersData);   // Set the fetched users data
     } catch (err) {
-      // Set an error if something goes wrong (e.g., user not found)
-      setError("Looks like we can't find the user");
+      setError("No users found based on the provided search criteria.");
     } finally {
-      setLoading(false);  // Stop loading
+      setLoading(false);     // Stop loading
     }
   };
 
   return (
-    <div className="search">
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search for a GitHub user"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)} // Update username as the user types
-        />
-        <button type="submit">Search</button>
+    <div className="search p-4 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">GitHub User Search</h2>
+      
+      <form onSubmit={handleSearch} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Username:</label>
+          <input
+            type="text"
+            placeholder="GitHub Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Location:</label>
+          <input
+            type="text"
+            placeholder="Location (optional)"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Minimum Repositories:</label>
+          <input
+            type="number"
+            placeholder="Min Repositories (optional)"
+            value={minRepos}
+            onChange={(e) => setMinRepos(e.target.value)}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        >
+          Search
+        </button>
       </form>
 
       {/* Conditional rendering based on loading, error, and user data */}
-      {loading && <p>Loading...</p>}  {/* Show loading message while fetching data */}
-      {error && <p>{error}</p>}       {/* Show error message if user is not found */}
-      
-      {user && (
-        <div className="user-profile">
-          {/* Display user information */}
-          <img src={user.avatar_url} alt={user.login} className="user-avatar" />
-          <h2>{user.name || user.login}</h2>  {/* Display name if available, otherwise fallback to login */}
-          <p>{user.bio}</p>                  {/* Display user bio */}
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            View GitHub Profile
-          </a>
-        </div>
-      )}
+      {loading && <p className="text-center mt-4">Loading...</p>}
+      {error && <p className="text-center mt-4 text-red-500">{error}</p>}
+
+      {/* Display search results */}
+      <div className="mt-6">
+        {users.length > 0 && (
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Search Results:</h3>
+            <ul className="space-y-4">
+              {users.map((user) => (
+                <li key={user.id} className="flex items-center space-x-4">
+                  <img
+                    src={user.avatar_url}
+                    alt={user.login}
+                    className="w-16 h-16 rounded-full"
+                  />
+                  <div>
+                    <h4 className="font-semibold">{user.login}</h4>
+                    <p className="text-sm text-gray-500">{user.location || "Location not provided"}</p>
+                    <p className="text-sm text-gray-500">Repos: {user.public_repos}</p>
+                    <a
+                      href={user.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-600 hover:underline"
+                    >
+                      View Profile
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 export default Search;
+
 
