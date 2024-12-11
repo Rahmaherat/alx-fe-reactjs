@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";  // Import axios for making HTTP requests
 
 const Search = () => {
-  const [username, setUsername] = useState("");  // Store username input
-  const [location, setLocation] = useState("");  // Store location input
-  const [minRepos, setMinRepos] = useState(""); // Store minimum repositories input
+  const [username, setUsername] = useState("");  // Store the username input
+  const [location, setLocation] = useState("");  // Store the location input
+  const [minRepos, setMinRepos] = useState(""); // Store the minimum repositories input
   const [users, setUsers] = useState([]);       // Store users data fetched from GitHub API
   const [loading, setLoading] = useState(false); // Manage loading state
   const [error, setError] = useState(null);     // Manage error messages
 
   // Function to fetch user data from GitHub API with advanced search parameters
   const fetchUserData = async () => {
+    // Build the search query string dynamically based on user inputs
     const query = `${username ? `user:${username}` : ""}${location ? `+location:${location}` : ""}${minRepos ? `+repos:${minRepos}` : ""}`;
+
     try {
+      // Make the API call to GitHub's search API
       const response = await axios.get(`https://api.github.com/search/users?q=${query}`);
       return response.data.items; // Return the list of users
     } catch (err) {
@@ -125,5 +128,6 @@ const Search = () => {
 };
 
 export default Search;
+
 
 
