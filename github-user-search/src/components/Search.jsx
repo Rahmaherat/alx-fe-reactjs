@@ -1,30 +1,39 @@
 import React, { useState } from "react";
-import { fetchUserData } from "../services/githubService";
-import UserProfile from "./UserProfile";
+import axios from "axios";  // You can use axios directly in this component if you prefer not to have a separate service
 
 const Search = () => {
-  const [username, setUsername] = useState("");      // To store search input
-  const [user, setUser] = useState(null);            // To store fetched user data
-  const [loading, setLoading] = useState(false);     // To manage loading state
-  const [error, setError] = useState(null);          // To manage error messages
+  const [username, setUsername] = useState("");  // To store the search input
+  const [user, setUser] = useState(null);        // To store user data fetched from GitHub API
+  const [loading, setLoading] = useState(false); // To manage loading state
+  const [error, setError] = useState(null);      // To manage error messages
 
   // Handle search form submission
   const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!username) return;  // Don't proceed if no username is provided
+    e.preventDefault();  // Prevent the form from reloading the page
+    if (!username) return;  // Don't fetch if no username is entered
 
-    setLoading(true);        // Set loading to true while fetching data
-    setError(null);          // Clear previous errors
-    setUser(null);           // Clear previous user data
+    setLoading(true);        // Show loading state
+    setError(null);          // Clear any previous errors
+    setUser(null);           // Clear any previously fetched user data
 
     try {
-      // Call the API service to fetch user data
-      const data = await fetchUserData(username);
-      setUser(data);         // Set fetched user data
+      // Fetch user data from GitHub API
+      const response = await axios.get(`https://api.github.com/users/${username}`);
+      const userData = response.data; // Store the response data (user info)
+
+      // Set the fetched user data
+      setUser({
+        avatar_url: userData.avatar_url,
+        login: userData.login,
+        name: userData.name,
+        bio: userData.bio || "No bio available",
+        html_url: userData.html_url,
+      });
     } catch (err) {
-      setError("Looks like we can't find the user"); // Set error message
+      // Set an error if something goes wrong (e.g., user not found)
+      setError("Looks like we can't find the user");
     } finally {
-      setLoading(false);      // Reset loading state
+      setLoading(false);  // Stop loading
     }
   };
 
@@ -35,21 +44,29 @@ const Search = () => {
           type="text"
           placeholder="Search for a GitHub user"
           value={username}
-          onChange={(e) => setUsername(e.target.value)} // Update state with input value
+          onChange={(e) => setUsername(e.target.value)} // Update username as the user types
         />
         <button type="submit">Search</button>
       </form>
 
-      {/* Display loading state */}
-      {loading && <p>Loading...</p>}
-
-      {/* Display error message */}
-      {error && <p>{error}</p>}
-
-      {/* Display user profile if available */}
-      {user && <UserProfile user={user} />}
+      {/* Conditional rendering based on loading, error, and user data */}
+      {loading && <p>Loading...</p>}  {/* Show loading message while fetching data */}
+      {error && <p>{error}</p>}       {/* Show error message if user is not found */}
+      
+      {user && (
+        <div className="user-profile">
+          {/* Display user information */}
+          <img src={user.avatar_url} alt={user.login} className="user-avatar" />
+          <h2>{user.name || user.login}</h2>  {/* Display name if available, otherwise fallback to login */}
+          <p>{user.bio}</p>                  {/* Display user bio */}
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+            View GitHub Profile
+          </a>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Search;
+
