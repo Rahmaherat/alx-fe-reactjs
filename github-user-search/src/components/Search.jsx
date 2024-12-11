@@ -19,7 +19,7 @@ const Search = () => {
       const response = await axios.get(`https://api.github.com/search/users?q=${query}`);
       return response.data.items; // Return the list of users
     } catch (err) {
-      throw new Error("Failed to fetch users.");
+      throw new Error("Looks like we cant find the user");
     }
   };
 
