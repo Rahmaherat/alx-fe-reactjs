@@ -15,7 +15,7 @@ const Search = () => {
     setLoading(true);        // Show loading state
     setError(null);          // Clear any previous errors
     setUser(null);           // Clear any previously fetched user data
-
+const fetchUserData = async (username) => {
     try {
       // Fetch user data from GitHub API
       const response = await axios.get(`https://api.github.com/users/${username}`);
