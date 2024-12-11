@@ -1,39 +1,44 @@
 import React, { useState } from "react";
+import SearchBar from './components/SearchBar';
+import UserProfile from './components/UserProfile';
 import './App.css';
 
 function App() {
   const [username, setUsername] = useState('');
   const [user, setUser] = useState(null);
 
-  const handleSearch = () => {
-    // For now, this will be a placeholder to show the search button works
-    console.log(`Searching for user: ${username}`);
+  // Handle search button click
+  const handleSearch = async () => {
+    if (!username) return; // Avoid empty search
+
+    try {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      const data = await response.json();
+
+      if (data.message === "Not Found") {
+        setUser(null); // If the user is not found, reset the state
+      } else {
+        setUser(data); // Set user data if found
+      }
+    } catch (error) {
+      console.error("Error fetching data from GitHub API", error);
+      setUser(null);
+    }
   };
 
   return (
     <div className="App">
       <h1>GitHub User Search</h1>
-      <input
-        type="text"
-        placeholder="Search for a GitHub user"
-        value={username}
+      <SearchBar
+        username={username}
         onChange={(e) => setUsername(e.target.value)}
+        onSearch={handleSearch}
       />
-      <button onClick={handleSearch}>Search</button>
-      <div>
-        {user && (
-          <div>
-            <h2>{user.name}</h2>
-            <p>{user.bio}</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              View GitHub Profile
-            </a>
-          </div>
-        )}
-      </div>
+      <UserProfile user={user} />
     </div>
   );
 }
 
 export default App;
+
 
