@@ -30,8 +30,8 @@ const Search = () => {
         html_url: userData.html_url,
       });
     } catch (err) {
-      // Set an error if something goes wrong (e.g., user not found)
-      setError("Looks like we can't find the user");
+      
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);  // Stop loading
     }
